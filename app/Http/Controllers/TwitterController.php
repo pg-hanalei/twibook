@@ -15,7 +15,7 @@ class TwitterController extends Controller
         $url = "https://twitter.com/pg_hanalei/status/1437501447248039936?s=20";
         $result = explode('/status', $url);
         $result2 = explode('?', $result[1]);
-        //::TODO どの段階で元のurlがおかしいと判断できる？
+        //::TODO どの段階で元のurlがおかしいと判断できる？ 登録する前に一度statusesOembedを実行してreturnを確認するか？
         // ここまで
 
         //本来はここでDB接続して指定のidを配列で取得する

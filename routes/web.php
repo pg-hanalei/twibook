@@ -14,3 +14,7 @@
 use App\Http\Controllers\TwitterController;
 
 Route::get('/', [TwitterController::class,'index']);
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
