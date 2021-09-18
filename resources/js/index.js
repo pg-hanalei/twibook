@@ -2,13 +2,8 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import('./bootstrap');
 
-const App = () => {
-    return (
-        <div>
-            React App
-        </div>
-    );
-}
+import App from "./app";
+
 
 ReactDom.render(
     <App />,

@@ -26,8 +26,9 @@
     </head>
     <body>
         <div class="flex-center position-ref full-height">
-
-
+            @section('content')
+            welcome
+            @endsection
         </div>
     </body>
 </html>
