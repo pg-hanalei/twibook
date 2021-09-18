@@ -15,6 +15,10 @@ use App\Http\Controllers\TwitterController;
 
 Route::get('/', [TwitterController::class,'index']);
 
+Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
+Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
+
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
