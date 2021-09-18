@@ -11,14 +11,23 @@
 |
 */
 
+use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TwitterController;
 
-Route::get('/', [TwitterController::class,'index']);
+Route::get('/', function(){
+    return view('welcome');
+});
 
+//認証
+Auth::routes();
+
+//ログイン・もしくは新規登録でgetのリンクを貼る
 Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
 Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
 
+//ログイン後のメインページになる予定 ここからはSPAでバックエンドもAPIにする予定
+Route::get('{any}',[ReactController::class, 'index'])->where('any', '.*');
 
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+//今のところreturnでwelcomeに向けているけど修正する
+//Route::get('/', [TwitterController::class,'index']);
