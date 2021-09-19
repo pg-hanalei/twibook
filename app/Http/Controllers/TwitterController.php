@@ -7,6 +7,10 @@ use App\Http\Vendor\CallTwitterApi;
 
 class TwitterController extends Controller
 {
+    public function __construct(){
+        $this->middleware('auth');
+    }
+
     public function index(Request $request)
     {
         $twitter = new CallTwitterApi();
@@ -26,6 +30,6 @@ class TwitterController extends Controller
             $tweets[] = array($twitter->statusesOembed($arr_id));
         }
         //とりあえずテスト的にviewに返すが、実際はリターンで埋め込みタグの配列を返すだけ
-        return view('welcome', ['tweets' => $tweets]);
+        return $tweets;
     }
 }

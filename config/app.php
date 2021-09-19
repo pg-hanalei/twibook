@@ -13,7 +13,12 @@ return [
     |
     */
 
-    'name' => config('APP_NAME', 'Twibook'),
+    'name' => env('APP_NAME', 'Twibook'),
+
+    'TWITTER_CLIENT_ID' => env('TWITTER_CLIENT_ID', ''),
+    'TWITTER_CLIENT_SECRET' => env('TWITTER_CLIENT_SECRET', ''),
+    'TWITTER_CLIENT_ID_ACCESS_TOKEN' => env('TWITTER_CLIENT_ID_ACCESS_TOKEN', ''),
+    'TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET' => env('TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET', ''),
 
     /*
     |--------------------------------------------------------------------------
@@ -39,7 +44,7 @@ return [
     |
     */
 
-    'debug' => (bool) env('APP_DEBUG', false),
+    'debug' => (bool)env('APP_DEBUG', false),
 
     /*
     |--------------------------------------------------------------------------

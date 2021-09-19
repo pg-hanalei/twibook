@@ -25,9 +25,11 @@ Auth::routes();
 Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
 Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
 
+Route::get('search', [TwitterController::class,'index']);
+
 //ログイン後のメインページになる予定 ここからはSPAでバックエンドもAPIにする予定
 Route::get('{any}',[ReactController::class, 'index'])->where('any', '.*');
 
 
-//今のところreturnでwelcomeに向けているけど修正する
-//Route::get('/', [TwitterController::class,'index']);
+
+

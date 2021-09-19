@@ -10,7 +10,6 @@
     <title>{{ config('app.name') }}</title>
 
     <!-- Scripts -->
-    <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
     <script src="{{ mix('/js/bootstrap.js') }}"></script>
 
     <!-- Fonts -->

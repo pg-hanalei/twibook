@@ -12,10 +12,10 @@ class callTwitterApi
     public function __construct()
     {
         $this->twitter = new TwitterOAuth(
-            env('TWITTER_CLIENT_ID'),
-            env('TWITTER_CLIENT_SECRET'),
-            env('TWITTER_CLIENT_ID_ACCESS_TOKEN'),
-            env('TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET')
+            config('app.TWITTER_CLIENT_ID'),
+            config('app.TWITTER_CLIENT_SECRET'),
+            config('app.TWITTER_CLIENT_ID_ACCESS_TOKEN'),
+            config('app.TWITTER_CLIENT_ID_ACCESS_TOKEN_SECRET')
         );
     }
 

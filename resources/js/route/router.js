@@ -5,34 +5,31 @@ import {
     Route,
     Link
 } from "react-router-dom";
-import About from "../components/pages/About"
+import Main from "../components/pages/Main"
+import UserSetting from "../components/pages/UserSetting";
+import CategoryRegistry from "../components/pages/CategoryRegistry";
+import CategoryEdit from "../components/pages/CategoryEdit";
+import BookmarkRegistry from "../components/pages/BookmarkRegistry";
 
 const Router = () => {
     return (
         <BrowserRouter>
             <div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to="/">Home</Link>
-                        </li>
-                        <li>
-                            <Link to="/about">About</Link>
-                        </li>
-                        <li>
-                            <Link to="/users">Users</Link>
-                        </li>
-                    </ul>
-                </nav>
                 <Switch>
-                    <Route path="/about">
-                        <About />
+                    <Route path="/main">
+                        <Main/>
                     </Route>
-                    <Route path="/users">
-                        {/*<Users />*/}
+                    <Route path="/user_setting">
+                        <UserSetting />
                     </Route>
-                    <Route path="/">
-                        {/*<Home />*/}
+                    <Route path="/category_registry">
+                        <CategoryRegistry />
+                    </Route>
+                    <Route path="/category_edit">
+                        <CategoryEdit />
+                    </Route>
+                    <Route path="/bookmark_registry">
+                        <BookmarkRegistry />
                     </Route>
                 </Switch>
             </div>
