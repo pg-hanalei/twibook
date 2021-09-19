@@ -10,7 +10,15 @@
 // Bootstrap
 @import '~bootstrap/scss/bootstrap';
 
-// FLOCSS
-html {
-    overflow-y: scroll;
+//
+a, select {
+    cursor: pointer;
+}
+
+body {
+    overflow-x: hidden !important;
+}
+
+main {
+    padding: 0 8px;
 }

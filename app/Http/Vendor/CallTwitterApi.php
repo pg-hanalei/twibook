@@ -2,6 +2,7 @@
 
 namespace App\Http\Vendor;
 
+use Log;
 use Abraham\TwitterOAuth\TwitterOAuth;
 
 class callTwitterApi
@@ -23,6 +24,7 @@ class callTwitterApi
     public function statusesOembed(String $id)
     {
         $data = $this->twitter->get("statuses/oembed", ['id' => $id]);
+//        Log::debug("取得したデータ:". $data->html);
         return $data->html;
     }
 }
