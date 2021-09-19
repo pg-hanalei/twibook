@@ -13,7 +13,18 @@ const mix = require('laravel-mix');
 
 mix.react('resources/js/index.js', 'public/js')
     .react('resources/js/bootstrap.js', 'public/js')
-    .sass('resources/sass/app.scss', 'public/css');
+    .sass('resources/sass/app.scss', 'public/css')
+    .options({
+        postCss: [
+            require('postcss-object-fit-images'),
+        ],
+        processCssUrls: false,
+        autoprefixer: {
+            options: {
+                grid: true,
+            }
+        },
+    });
 
 if(mix.inProduction()){
     mix.version()

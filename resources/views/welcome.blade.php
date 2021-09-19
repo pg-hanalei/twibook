@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="flex-center position-ref full-height">
-        welcome
+        welcomeトップ画面になる予定
     </div>
 @endsection
 
