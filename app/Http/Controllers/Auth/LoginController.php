@@ -60,6 +60,6 @@ class LoginController extends Controller
         $myinfo = User::firstOrCreate(['token' => $user->token ],
             ['name' => $user->nickname,'email' => $user->getEmail()]);
         Auth::login($myinfo);
-        return redirect()->to('/');
+        return redirect()->to('/main');
     }
 }
