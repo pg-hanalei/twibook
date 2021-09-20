@@ -13,6 +13,7 @@
 
 use App\Http\Controllers\ReactController;
 use App\Http\Controllers\TwitterController;
+use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function(){
     return view('welcome');
@@ -26,6 +27,8 @@ Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
 Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
 
 Route::get('search', [TwitterController::class,'index']);
+
+Route::resource('category', 'BookmarkCategoryController');
 
 //ログイン後のメインページになる予定 ここからはSPAでバックエンドもAPIにする予定
 Route::get('{any}',[ReactController::class, 'index'])->where('any', '.*');

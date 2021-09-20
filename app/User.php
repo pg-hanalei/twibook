@@ -42,4 +42,8 @@ class User extends Authenticatable
         return $this->hasMany(SocialUser::class);
     }
 
+    public function categories()
+    {
+        return $this->hasMany('App\BookmarkCategory');
+    }
 }

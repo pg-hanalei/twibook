@@ -34,7 +34,7 @@ const Main = memo(() => {
                 setLoading(false)
                 console.log("error");
             })
-    },[]);
+    },[setLoading, setTweets]);
 
     return (
         <>
@@ -52,14 +52,12 @@ const Main = memo(() => {
                             <option value="">政治</option>
                             <option value="">経済</option>
                         </select>
-                    </div>
-                    <div className="row mt-2">
-                        <select className="form-control form-control-lg" aria-label="select old and new">
+                        <select className="form-control form-control-lg mt-2" aria-label="select old and new">
                             <option value="desc">新しい順</option>
                             <option value="asc">古い順</option>
                         </select>
                     </div>
-                    <div className="d-grid gap-2">
+                    <div className="d-grid">
                         <a className="btn btn-primary btn-lg btn-block mt-4" href="" onClick={onClickSearch}>検索</a>
                     </div>
                     <div className="mt-4">
