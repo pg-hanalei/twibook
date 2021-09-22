@@ -11,12 +11,13 @@
 @import '~bootstrap/scss/bootstrap';
 
 //
-a, select {
+a, select, input, button {
     cursor: pointer;
 }
 
 body {
     overflow-x: hidden !important;
+    overflow-y: scroll !important;
 }
 
 main {
@@ -27,6 +28,28 @@ main {
     min-width: 120px;
 }
 
-.btn-danger{
+.btn-danger {
     min-width: 160px;
+}
+
+#user_image-area {
+    position: relative;
+}
+
+#user_image {
+    &:hover {
+        cursor: pointer;
+        opacity: 0.7;
+        + .user_image--icon {
+            display: block;
+        }
+    }
+}
+
+.user_image--icon {
+    display: none;
+    position: absolute;
+    top:37%;
+    left: 42%;
+    font-size: 30px;
 }

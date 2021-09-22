@@ -1,40 +1,30 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
 import MenuSelect from "../molecules/MenuSelect";
 import PageTitle from "../atoms/PageTitle";
+import useBookmarkCategory from "../../hooks/api/useBookmarkCategory";
+import useTwitterWidgets from "../../hooks/useTwitterWidgets";
+import useTweet from "../../hooks/api/useTweet";
 
 const Main = memo(() => {
+    const {tweets, loading, showTweet} = useTweet();
+    const [order, setOrder] = useState('desc');
+    const [categoryId, setCategoryId] = useState(0);
 
-    const [tweets, setTweets] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const {createScriptTagTwitterWidgets} = useTwitterWidgets();
+    const {categories , getCategory} = useBookmarkCategory();
 
     useEffect(()=>{
+        createScriptTagTwitterWidgets();
+    },[tweets]);
 
-        const script = document.createElement("script");
-        script.type = "text/javascript";
-
-        const attr = document.createAttribute("src");
-        attr.value = "//platform.twitter.com/widgets.js";
-        script.setAttributeNode(attr);
-
-        const head = document.getElementsByTagName("main")[0];
-        head.appendChild(script);
-
-    },[tweets])
+    useEffect( () => {
+        getCategory();
+    },[]);
 
     const onClickSearch = useCallback((e) => {
         e.preventDefault();
-        setLoading(true)
-        setTweets([]);
-        axios.get("search")
-            .then( (res) => {
-                setLoading(false)
-                setTweets([...res.data]);
-            })
-            .catch(()=>{
-                setLoading(false)
-                console.log("error");
-            })
-    },[setLoading, setTweets]);
+        showTweet(categoryId, order);
+    },[categoryId, order]);
 
     return (
         <>
@@ -43,16 +33,19 @@ const Main = memo(() => {
                 <PageTitle>ブックマーク一覧</PageTitle>
                 <form>
                     <div className="row mt-4">
-                        <select className="form-control form-control-lg" aria-label="select category">
+                        <select className="form-control form-control-lg"
+                                aria-label="select category"
+                                onChange={(e)=>setCategoryId(e.target.value)}
+                        >
                             <option value="">カテゴリー</option>
-                            <option value="">プログラミング</option>
-                            <option value="">転職</option>
-                            <option value="">思考</option>
-                            <option value="">勉強法</option>
-                            <option value="">政治</option>
-                            <option value="">経済</option>
+                            { categories.map( (category) =>(
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
                         </select>
-                        <select className="form-control form-control-lg mt-2" aria-label="select old and new">
+                        <select className="form-control form-control-lg mt-2"
+                                aria-label="select old and new"
+                                onChange={(e)=>setOrder(e.target.value)}
+                        >
                             <option value="desc">新しい順</option>
                             <option value="asc">古い順</option>
                         </select>
@@ -76,7 +69,8 @@ const Main = memo(() => {
                                     __html: html
                                 }}>
                                 </a>
-                            )})}
+                            )
+                        })}
                     </div>
                 </form>
             </div>

@@ -1,42 +1,21 @@
 import React, {memo, useCallback, useEffect, useState} from "react";
 import MenuSelect from "../molecules/MenuSelect";
 import PageTitle from "../atoms/PageTitle";
+import useBookmarkCategory from "../../hooks/api/useBookmarkCategory";
+import useEditCategory from "../../hooks/api/useEditCategory";
+import useDeleteCategory from "../../hooks/api/useDeleteCategory";
 
 const CategoryEdit = memo((e) => {
-    const [categories, setCategories] = useState([]);
-    const [categoryName, setCategoryName] = useState('');
-    const [displayNo, setDisplayNo] = useState(0);
-    const [categoryId, setCategoryId] = useState(0)
+    const { categories, categoryName, setCategoryName, displayNo,
+            setDisplayNo, categoryId, getCategory, onChangeCategory }
+        = useBookmarkCategory();
+
+    const {editCategory} = useEditCategory();
+    const {deleteCategory} = useDeleteCategory();
 
     useEffect(()=>{
-        getCategories();
+        getCategory();
     },[])
-
-    const getCategories = () => {
-        setCategories([]);
-        setCategoryName("");
-        setDisplayNo(0);
-        axios.get('category')
-            .then((res)=>{
-                console.log(res);
-                setCategories([...res.data])
-            })
-            .catch((err) => {
-                console.log(err);
-            })
-    }
-
-    const onChangeCategory = (e) => {
-        const index = e.target.selectedIndex;
-        if(index == 0){
-            setCategoryName('');
-            setDisplayNo(0);
-            return;
-        }
-        setCategoryId(e.target.value);
-        setCategoryName(e.target[index].text);
-        setDisplayNo(categories[index -1].display_no);
-    }
 
     const onClickEdit = useCallback((e) => {
         e.preventDefault();
@@ -44,24 +23,12 @@ const CategoryEdit = memo((e) => {
             categoryName,
             displayNo,
         };
-        axios.put('category/'+ categoryId ,data)
-            .then( (res) => {
-                getCategories();
-            })
-            .catch(()=>{
-                console.log('error')
-            })
+        editCategory(data, categoryId, getCategory);
     },[categoryName, displayNo, categoryId]);
 
     const onClickDelete = useCallback((e) => {
         e.preventDefault();
-        axios.delete('category/'+ categoryId)
-            .then( (res) => {
-                getCategories();
-            })
-            .catch(()=>{
-                console.log('error')
-            })
+        deleteCategory(categoryId, getCategory);
     },[categoryId]);
 
     return (
@@ -71,10 +38,12 @@ const CategoryEdit = memo((e) => {
 
             <form className="mt-4">
                 <div className="row">
-                    <select className="form-control form-control-lg" aria-label="select category" onChange={onChangeCategory}>
+                    <select className="form-control form-control-lg"
+                            aria-label="select category"
+                            onChange={(e)=>onChangeCategory(e, categories)}>
                         <option value="" name="">カテゴリー</option>
                         { categories.map( (category) =>(
-                            <option key={category.id} value={category.id} data-display={category.display_no}>{category.name}</option>
+                            <option key={category.id} value={category.id}>{category.name}</option>
                         ))}
                     </select>
                     <input className="form-control form-control-lg mt-2"

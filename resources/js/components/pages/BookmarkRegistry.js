@@ -1,18 +1,45 @@
-import React, {memo, useState} from "react";
+import React, {memo, useCallback, useEffect, useState} from "react";
 import MenuSelect from "../molecules/MenuSelect";
 import PageTitle from "../atoms/PageTitle";
+import useBookmarkCategory from "../../hooks/api/useBookmarkCategory";
 
 const BookmarkRegistry = memo(() => {
     const [url, setUrl] = useState('');
+    const [categoryId, setCategoryId] = useState(0)
+    const {categories , getCategory } = useBookmarkCategory();
 
-    const onClickRegistry = (e) => {
+    useEffect(() => {
+        getCategory();
+    }, [])
+
+    const onClickRegistry = useCallback((e) => {
         e.preventDefault();
-        alert(url);
-    }
+        //https://twitter.com/pg_hanalei/status/1440246455277473792?s=20
+        const tweetUrl = url;
+        const tweetIdQuery = tweetUrl.slice(tweetUrl.indexOf("status/") + 7)
+        const tweetId = tweetIdQuery.substring(0, tweetIdQuery.indexOf('?'));
+        const bookmarkCategory = categoryId;
+
+        const data = {
+            tweetId,
+            bookmarkCategory,
+        };
+
+        axios.post('tweet/store', data)
+            .then((res) => {
+                console.log(res);
+                setUrl("");
+                document.getElementById('category').options[0].selected = true;
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+    },[url, categoryId])
+
     return (
         <>
             <div className="container">
-                <MenuSelect />
+                <MenuSelect/>
                 <PageTitle>ブックマーク登録</PageTitle>
 
                 <form className="mt-4">
@@ -21,16 +48,16 @@ const BookmarkRegistry = memo(() => {
                                type="text"
                                placeholder="ツイートのリンクを入力"
                                value={url}
-                               onChange={ (e) => setUrl(e.target.value)}
+                               onChange={(e) => setUrl(e.target.value)}
                         />
-                        <select className="form-control form-control-lg mt-2" aria-label="select category">
-                            <option value="">カテゴリー</option>
-                            <option value="">プログラミング</option>
-                            <option value="">転職</option>
-                            <option value="">思考</option>
-                            <option value="">勉強法</option>
-                            <option value="">政治</option>
-                            <option value="">経済</option>
+                        <select id="category" className="form-control form-control-lg mt-2"
+                                aria-label="select category"
+                                onChange={(e)=>setCategoryId(e.target.value)}
+                        >
+                            <option value="" name="">カテゴリー</option>
+                            {categories.map((category) => (
+                                <option key={category.id} value={category.id}>{category.name}</option>
+                            ))}
                         </select>
                     </div>
                     <div className="d-grid">

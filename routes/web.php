@@ -26,7 +26,8 @@ Auth::routes();
 Route::get('login/twitter', 'Auth\LoginController@redirectToTwitterProvider');
 Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProviderCallback');
 
-Route::get('search', [TwitterController::class,'index']);
+Route::get('tweet/{category}/{order}', [TwitterController::class,'show']);
+Route::post('tweet/store', [TwitterController::class,'store']);
 
 Route::resource('category', 'BookmarkCategoryController');
 
