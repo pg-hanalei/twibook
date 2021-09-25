@@ -34,22 +34,41 @@ main {
 
 #user_image-area {
     position: relative;
-}
 
-#user_image {
     &:hover {
         cursor: pointer;
-        opacity: 0.7;
-        + .user_image--icon {
+
+        #user_image {
+            opacity: .8;
+        }
+
+        .user_image_icon {
             display: block;
         }
     }
 }
 
-.user_image--icon {
+.user_image_icon {
     display: none;
     position: absolute;
-    top:37%;
+    top: 37%;
     left: 42%;
     font-size: 30px;
 }
+
+@media(max-width: 720px) {
+    .user_image_icon{
+        display: block;
+        top: 37%;
+        left: 42%;
+        font-size: 30px;
+    }
+    #user_image{
+        opacity: .8;
+    }
+}
+
+.modal-body {
+    height: 70vh;
+}
+
