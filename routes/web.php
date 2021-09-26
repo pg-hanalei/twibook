@@ -29,6 +29,11 @@ Route::get('login/twitter/callback', 'Auth\LoginController@handleTwitterProvider
 Route::get('tweet/{category}/{order}', [TwitterController::class,'show']);
 Route::post('tweet/store', [TwitterController::class,'store']);
 
+Route::post('main/user_info', [ReactController::class,'user_info']);
+Route::PATCH('main/user_info_update/{id}', [ReactController::class,'user_info_update']);
+Route::PATCH('main/user_info_social_update/{id}', [ReactController::class,'user_info_social_update']);
+Route::post('main/photo', [ReactController::class,'update_photo']);
+
 Route::resource('category', 'BookmarkCategoryController');
 
 //ログイン後のメインページになる予定 ここからはSPAでバックエンドもAPIにする予定

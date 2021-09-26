@@ -21,8 +21,9 @@ class CreateUsersTable extends Migration
             $table->string('password')->nullable(); //->nullabale();追加
             $table->string('token')->nullable(); //追加
             $table->string('pic')->default('noimg.png');
-           $table->rememberToken();
-           $table->timestamps();
+            $table->boolean('social')->default(false);
+            $table->rememberToken();
+            $table->timestamps();
 
         });
     }

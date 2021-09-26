@@ -1,11 +1,11 @@
-import React from "react";
+import React, {memo, useCallback} from "react";
 import {useHistory} from "react-router-dom";
 
-const MenuSelect = () => {
+const MenuSelect = memo(() => {
 
     const history = useHistory();
 
-    const onChangeMenu = (e) => {
+    const onChangeMenu = useCallback((e) => {
         switch(e.target.value){
             case "main":
                 history.push('/main');
@@ -25,7 +25,7 @@ const MenuSelect = () => {
             default:
                 return;
         }
-    }
+    },[]);
     return (
         <>
             <div className="row mt-4">
@@ -40,6 +40,6 @@ const MenuSelect = () => {
             </div>
         </>
     );
-}
+});
 
 export default MenuSelect
