@@ -3,6 +3,7 @@ import Cropper from "react-easy-crop";
 import getCroppedImg from "../../vendor/cropImage";
 
 const aspectRatios = [
+    //今回は固定で使用
     { value: 1 / 1, text: "1/1" },
     // { value: 16 / 9, text: "16/9" },
     // { value: 1 / 2, text: "1/2" },

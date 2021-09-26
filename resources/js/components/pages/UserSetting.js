@@ -56,14 +56,18 @@ const UserSetting = () => {
             const now = Date.now();
             const fileName = `${userId}${now}.jpg`;
 
+            //ReactからLaravelに画像データなどを送信するときはFormDataを使用する。
             const file = new FormData();
 
-            console.log(localStorage.getItem("blob"));
+            // console.log(localStorage.getItem("blob"));
 
+            //cropImage.jsで画像blobをbase64に変換してローカルストレージに保存
             const base64Image = localStorage.getItem("blob");
 
+            //コンソールで見たらわかるが、余分な文字（base64の明記）があるので正規表現を使ってreplaceで削除する
             var strImage = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
 
+            //base64をblobに戻る関数 アカウントアイコンなのでpngで十分
             function toBlob(base64) {
                 var bin = atob(base64.replace(/^.*,/, ''));
                 var buffer = new Uint8Array(bin.length);
@@ -73,7 +77,7 @@ const UserSetting = () => {
                 // Blobを作成
                 try{
                     var blob = new Blob([buffer.buffer], {
-                        type: 'image/png'
+                        type: 'image/jpg'
                     });
                 }catch (e){
                     return false;
@@ -81,7 +85,9 @@ const UserSetting = () => {
                 return blob;
             }
 
+            //先に作ったFormDataにbase64からBlobに変換したものを詰める、 キー名、blob、ファイル名
             file.append('photo', toBlob(strImage) , fileName)
+            //axiosの通信ヘッダー
             const headers = { "Content-Type": "multipart/form-data" };
             axios.post('/main/photo', file, { headers })
             .then(res => {
@@ -89,14 +95,18 @@ const UserSetting = () => {
             }).catch(error => {
             new Error(error)
             })
+            //TODO:: 元の画像ファイル名を退避させておいて、この段階で前の画像を削除する laravelでFile::delete()がある。
 
-
+            //DBにファイル名を保存する axiosでpost送信するdataをオブジェクトで用意
+            //ファイル名はアカウントID＋タイムスタンプで今回は十分
             const data = {
                 pic: fileName
             }
+
             axios.patch(`main/user_info_social_update/${userId}`, data)
                 .then((res)=>{
                     console.log(res)
+                    //登録後、アイコン画像を更新するためにユーザー情報を再取得
                     getUserInfo();
                     alert("登録しました");
                 })
@@ -105,10 +115,9 @@ const UserSetting = () => {
                 })
 
         }else{
+            //こちはらTwitterログイン以外の場合、メールアドレスとパスワードの変更が可能
             // axios.post('main/user_info_update')
         }
-
-
 
 
     },[userId, isSocial, userImage]);
@@ -116,10 +125,12 @@ const UserSetting = () => {
     const onChangeImage = useCallback((e) => {
 
         const file = e.target.files[0]
+        //画像を選択せずキャンセルするとエラーになるのでここで止める
         if(file === null){
             return;
         }
 
+        //選択した画像をblobUrlに変換して選択画像情報に詰める croppedImageUrlは返還後のURLを詰める
         var blobUrl = window.URL.createObjectURL(file);
         setSelectedImage(
             {
@@ -131,15 +142,19 @@ const UserSetting = () => {
     },[]);
 
     const onCancel = useCallback(() => {
+        //選択画像のstateの中身を空にすることで、crop画面を消す
         setSelectedImage(null);
     },[]);
 
+    //現時点でのユーザーの画像情報を詰める。 selectedImageで編集が終わった状態を残して画像表示するのにしようする。
+    //croppedImageUrlがなければuserImageに標準で詰めたimageUrlがアイコンに表示される
     const setCroppedImageFor = useCallback((id, crop, zoom, aspect, croppedImageUrl) => {
         const newImage = { ...userImage, croppedImageUrl, crop, zoom, aspect };
         setUserImage(newImage);
         setSelectedImage(null);
     },[userImage]);
 
+    //リセットボタンを押すと その現時点での情報はuserImageに詰められた内容だけになる、croo画面からはnullが返される
     const resetImage = useCallback((id) => {
         setCroppedImageFor(id);
     },[userImage]);
