@@ -67,7 +67,7 @@ const UserSetting = () => {
             //コンソールで見たらわかるが、余分な文字（base64の明記）があるので正規表現を使ってreplaceで削除する
             var strImage = base64Image.replace(/^data:image\/[a-z]+;base64,/, "");
 
-            //base64をblobに戻る関数 アカウントアイコンなのでpngで十分
+            //base64をblobに戻る関数
             function toBlob(base64) {
                 var bin = atob(base64.replace(/^.*,/, ''));
                 var buffer = new Uint8Array(bin.length);
@@ -96,6 +96,7 @@ const UserSetting = () => {
             new Error(error)
             })
             //TODO:: 元の画像ファイル名を退避させておいて、この段階で前の画像を削除する laravelでFile::delete()がある。
+            //TODO:: 画像の圧縮とバックエンドでのファイルサイズバリデーション
 
             //DBにファイル名を保存する axiosでpost送信するdataをオブジェクトで用意
             //ファイル名はアカウントID＋タイムスタンプで今回は十分

@@ -16,7 +16,7 @@ use App\Http\Controllers\TwitterController;
 use Illuminate\Support\Facades\Auth;
 
 Route::get('/', function(){
-    return view('welcome');
+    return redirect()->to("/main");
 });
 
 //認証

@@ -66,8 +66,12 @@
                                 @endif
                             </div>
                         </div>
+
                     </form>
                 </div>
+            </div>
+            <div class="mt-4">
+                <a href="login/twitter" class="btn btn-outline-primary"><span><img src="storage/images/twitter.png" width="30px" alt=""></span>Twitterでログイン</a>
             </div>
         </div>
     </div>
